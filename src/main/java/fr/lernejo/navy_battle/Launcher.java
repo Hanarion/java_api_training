@@ -15,36 +15,21 @@ public class Launcher {
             System.out.println("Merci de préciser le port");
             return;
         }
+        int port;
         try {
-            int port;
-
-            try {
-                port = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                System.out.println("Ce n'est pas un port valide");
-                return;
-            }
-
-            if (port > 0 && port < 65535) {
-                InetSocketAddress addr = new InetSocketAddress("0.0.0.0", port);
-
-                HttpServer server = HttpServer.create(addr, 0);
-
-                ExecutorService executor = Executors.newFixedThreadPool(1);
-                server.setExecutor(executor);
-
-                HttpHandler handler = new PingHandler();
-
-                server.createContext("/ping", handler);
-
-                server.start();
-            } else {
-                System.out.println("Merci d'indiquer un port valide");
-                return;
-            }
-        } catch (IOException e) {
-            System.out.println("Impossible de créer un serveur, le port est disponible ??");
+            port = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            System.out.println("Ce n'est pas un port valide");
             return;
         }
+
+        if (port > 0 && port < 65535) {
+            NavyBattleServer server = new NavyBattleServer("0.0.0.0", port);
+            server.startHttpServer();
+        } else {
+            System.out.println("Merci d'indiquer un port valide");
+            return;
+        }
+
     }
 }
