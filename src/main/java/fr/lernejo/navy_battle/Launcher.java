@@ -1,14 +1,5 @@
 package fr.lernejo.navy_battle;
 
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
-import fr.lernejo.navy_battle.handlers.PingHandler;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class Launcher {
     public static void main(String[] args) {
         if (args.length < 1) {
