@@ -19,6 +19,7 @@ public class NavyBattleServer {
     private final Map<String, HttpHandler> handlerMap = new HashMap<>();
     private final Player player;
     private final AtomicReference<Player> oponnent = new AtomicReference<>();
+    private final AtomicReference<HttpServer> httpServer = new AtomicReference<>();
 
     public NavyBattleServer(String ip, int port, Player player) {
         this.ip = ip;
@@ -44,7 +45,7 @@ public class NavyBattleServer {
             for (Map.Entry<String, HttpHandler> handler : handlerMap.entrySet()) {
                 server.createContext(handler.getKey(), handler.getValue());
             }
-
+            this.httpServer.set(server);
             server.start();
             System.out.println("Server available at http://" + addr);
         } catch (IOException e) {
@@ -52,6 +53,10 @@ public class NavyBattleServer {
             return;
         }
 
+    }
+
+    public void stopHttpServer() {
+        this.httpServer.get().stop(0);
     }
 
     public Player getOponnent() {

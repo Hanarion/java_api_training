@@ -1,5 +1,6 @@
-package fr.lernejo.navy_battle;
+package fr.lernejo.navy_battle.handlers;
 
+import fr.lernejo.navy_battle.Launcher;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.*;
@@ -9,10 +10,10 @@ import java.net.URL;
 class PingTest {
     @org.junit.jupiter.api.Test
     void simpleGetPing() throws IOException {
-        String[] args = {"18596"};
+        String[] args = {"18595"};
         Launcher.main(args);
 
-        URL url = new URL("http://localhost:18596/ping");
+        URL url = new URL("http://localhost:18595/ping");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         int status = con.getResponseCode();
