@@ -1,5 +1,9 @@
 package fr.lernejo.navy_battle;
 
+import fr.lernejo.navy_battle.game.Player;
+
+import java.util.UUID;
+
 public class Launcher {
     public static void main(String[] args) {
         if (args.length < 1) {
@@ -15,7 +19,9 @@ public class Launcher {
         }
 
         if (port > 0 && port < 65535) {
-            NavyBattleServer server = new NavyBattleServer("0.0.0.0", port);
+            String ip = "localhost";
+            Player player = new Player(UUID.randomUUID(), "http://" + ip + ':' + port, "May the best code win");
+            NavyBattleServer server = new NavyBattleServer(ip, port, player);
             server.startHttpServer();
         } else {
             System.out.println("Merci d'indiquer un port valide");
