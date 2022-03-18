@@ -3,6 +3,8 @@ package fr.lernejo.navy_battle;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import fr.lernejo.navy_battle.game.Player;
+import fr.lernejo.navy_battle.game.Sea;
+import fr.lernejo.navy_battle.game.ships.*;
 import fr.lernejo.navy_battle.handlers.PingHandler;
 import fr.lernejo.navy_battle.handlers.StartGameHandler;
 
@@ -20,6 +22,8 @@ public class NavyBattleServer {
     private final Player player;
     private final AtomicReference<Player> oponnent = new AtomicReference<>();
     private final AtomicReference<HttpServer> httpServer = new AtomicReference<>();
+    private final AtomicReference<Sea> my_sea = new AtomicReference<>();
+    private final AtomicReference<Sea> oponnent_sea = new AtomicReference<>();
 
     public NavyBattleServer(String ip, int port, Player player) {
         this.ip = ip;
@@ -74,6 +78,26 @@ public class NavyBattleServer {
     }
 
     public void startNewGame() {
+        Sea sea = new Sea();
+        List<Ship> ships = new ArrayList<>(
+                Arrays.asList(
+                        new ContreTorpilleur(),
+                        new Croiseur(),
+                        new PorteAvion(),
+                        new Torpilleur()
+                )
+        );
+
+        sea.populateSea(ships);
+
+        this.my_sea.set(sea);
+
+        Sea other_sea = new Sea();
+        other_sea.populateSea(new ArrayList<>()); // No ships known for you
+
+        this.oponnent_sea.set(other_sea);
+
+
 
     }
 }
