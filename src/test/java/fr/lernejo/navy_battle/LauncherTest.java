@@ -12,7 +12,7 @@ class LauncherTest {
         String[] args2 = {"toto"};
         Assertions.assertDoesNotThrow(() -> Launcher.main(args2));
 
-        String[] args3 = {"525", "toto"};
+        String[] args3 = {"5259", "toto"};
         Assertions.assertDoesNotThrow(() -> Launcher.main(args3));
 
     }

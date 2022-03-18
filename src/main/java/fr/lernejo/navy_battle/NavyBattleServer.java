@@ -72,4 +72,8 @@ public class NavyBattleServer {
     public Player getPlayer() {
         return player;
     }
+
+    public void startNewGame() {
+
+    }
 }

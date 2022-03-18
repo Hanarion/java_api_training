@@ -4,21 +4,24 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Ship {
-    private final AtomicBoolean sunk = new AtomicBoolean(false);
+    private final AtomicInteger nb_hit = new AtomicInteger(0);
     protected final AtomicInteger size = new AtomicInteger();
 
     public Ship() {
     }
 
     public boolean isSunk() {
-        return sunk.get();
+        return nb_hit.get() >= size.get();
     }
 
-    public void sink() {
-        this.sunk.set(true);
+    public boolean hit() {
+        nb_hit.incrementAndGet();
+        return isSunk();
     }
 
     public int getSize() {
         return this.size.get();
     }
+
+
 }

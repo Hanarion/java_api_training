@@ -40,7 +40,7 @@ public class StartGameHandler extends Handler implements HttpHandler {
             player = mapper.readValue(input, Player.class);
 
             this.getBattleServer().setOponnent(player);
-
+            this.getBattleServer().startNewGame();
             String response = mapper.writeValueAsString(this.getBattleServer().getPlayer());
 
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_ACCEPTED, response.getBytes().length);
