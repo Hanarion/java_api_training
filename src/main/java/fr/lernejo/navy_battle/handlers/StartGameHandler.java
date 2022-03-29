@@ -20,25 +20,24 @@ public class StartGameHandler extends Handler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        if (!httpExchange.getRequestMethod().equals("POST")) {
-            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
-            return;
-        }
-        String json = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
-        Player player = new Player().getFromJson(json);
-        this.getBattleServer().setOponnent(player);
-        String response = this.getBattleServer().getPlayer().toJson();
-        sendResponse(httpExchange, response);
-    }
-
-    public void sendResponse(HttpExchange httpExchange, String response) throws IOException {
         try {
-
-            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_ACCEPTED, response.getBytes().length);
-            httpExchange.getResponseBody().write(response.getBytes());
+            if (!httpExchange.getRequestMethod().equals("POST")) {
+                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
+                return;
+            }
+            String json = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+            Player player = new Player().getFromJson(json);
+            this.getBattleServer().setOponnent(player);
+            String response = this.getBattleServer().getPlayer().toJson();
+            sendResponse(httpExchange, response);
             httpExchange.close();
         } catch (IOException e) {
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
         }
+    }
+
+    public void sendResponse(HttpExchange httpExchange, String response) throws IOException {
+        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_ACCEPTED, response.getBytes().length);
+        httpExchange.getResponseBody().write(response.getBytes());
     }
 }
