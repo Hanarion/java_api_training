@@ -28,6 +28,8 @@ public class Launcher {
             NavyBattleServer server = new NavyBattleServer(ip, port, player);
             if (url != null) {
                 Player opponnent = new Player().getFromUrl(url, player);
+                if (opponnent == null)
+                    return;
                 server.setOponnent(opponnent);
 
             }

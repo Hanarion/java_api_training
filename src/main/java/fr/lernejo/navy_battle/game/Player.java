@@ -65,11 +65,14 @@ public class Player {
         try {
             url = new URL(str_url + "/api/game/start");
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Merci de préciser une URL valide");
+            return null;
         }
         HttpURLConnection con = null;
         try {
+
             con = (HttpURLConnection) url.openConnection();
+
 
             con.setRequestMethod("POST");
             con.setDoOutput(true);
