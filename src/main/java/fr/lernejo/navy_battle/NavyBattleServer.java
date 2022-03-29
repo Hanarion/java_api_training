@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpServer;
 import fr.lernejo.navy_battle.game.Player;
 import fr.lernejo.navy_battle.game.Sea;
 import fr.lernejo.navy_battle.game.ships.*;
+import fr.lernejo.navy_battle.handlers.FireHandler;
 import fr.lernejo.navy_battle.handlers.PingHandler;
 import fr.lernejo.navy_battle.handlers.StartGameHandler;
 
@@ -32,6 +33,7 @@ public class NavyBattleServer {
 
         this.addHandler("/ping", new PingHandler(this));
         this.addHandler("/api/game/start", new StartGameHandler(this));
+        this.addHandler("/api/game/fire", new FireHandler(this));
     }
 
     public void addHandler(String endpoint, HttpHandler handler) {
