@@ -31,6 +31,7 @@ public class StartGameHandler extends Handler implements HttpHandler {
             String response = this.getBattleServer().getPlayer().toJson();
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_ACCEPTED, response.getBytes().length);
             httpExchange.getResponseBody().write(response.getBytes());
+            httpExchange.close();
         } catch (IOException e) {
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
         }

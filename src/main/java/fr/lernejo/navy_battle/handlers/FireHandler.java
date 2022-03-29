@@ -26,6 +26,7 @@ public class FireHandler extends Handler implements HttpHandler {
             httpExchange.getResponseHeaders().set("Content-Type", "application/json;");
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_ACCEPTED, response.getBytes().length);
             httpExchange.getResponseBody().write(response.getBytes());
+            httpExchange.close();
         } catch (IOException e) {
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
         }
