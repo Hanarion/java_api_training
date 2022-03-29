@@ -15,5 +15,8 @@ class LauncherTest {
         String[] args3 = {"5259", "toto"};
         Assertions.assertDoesNotThrow(() -> Launcher.main(args3));
 
+        String[] args4 = {"5259", "http://localhost:8971"};
+        Assertions.assertDoesNotThrow(() -> Launcher.main(args4));
+
     }
 }

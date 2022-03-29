@@ -91,7 +91,7 @@ public class Player {
 
         } catch (IOException e) {
             System.out.println("Serveur impossible à joindre");
-            throw new RuntimeException(e);
+            return null;
         }
 
     }
