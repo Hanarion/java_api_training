@@ -32,27 +32,22 @@ public class StartGameHandler extends Handler implements HttpHandler {
             return;
 
         }
-        ObjectMapper mapper = new ObjectMapper();
-        Player player;
         try {
-            String input = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
-
-            player = mapper.readValue(input, Player.class);
-
+            String json = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+            Player player = new Player().getFromJson(json);
             this.getBattleServer().setOponnent(player);
-            this.getBattleServer().startNewGame();
-            String response = mapper.writeValueAsString(this.getBattleServer().getPlayer());
-
+            String response = this.getBattleServer().getPlayer().toJson();
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_ACCEPTED, response.getBytes().length);
             httpExchange.getResponseBody().write(response.getBytes());
-        } catch (Exception e) {
-//            e.printStackTrace();
+            httpExchange.close();
+
+        } catch (IOException e) {
+
             try {
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            return;
         }
 
     }

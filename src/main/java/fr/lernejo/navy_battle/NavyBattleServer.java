@@ -51,7 +51,7 @@ public class NavyBattleServer {
             }
             this.httpServer.set(server);
             server.start();
-            System.out.println("Server available at http://" + addr);
+            System.out.println("Server available at http://" + addr.getHostName() + ':' + addr.getPort());
         } catch (IOException e) {
             System.out.println("Impossible de créer un serveur, le port est disponible ??");
             return;
