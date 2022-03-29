@@ -17,7 +17,10 @@ public class Launcher {
             System.out.println("Ce n'est pas un port valide");
             return;
         }
+        new Launcher().start(port, args);
+    }
 
+    public void start(int port, String[] args) {
         if (port > 0 && port < 65535) {
             String ip = "localhost";
             Player player = new Player(UUID.randomUUID(), "http://" + ip + ':' + port, "May the best code win");
@@ -33,6 +36,5 @@ public class Launcher {
         } else {
             System.out.println("Merci d'indiquer un port valide");
         }
-
     }
 }

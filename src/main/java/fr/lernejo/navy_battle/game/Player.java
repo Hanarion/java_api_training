@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -60,25 +61,27 @@ public class Player {
     }
 
     public Player getFromUrl(String str_url, Player other_player) {
-        Player player;
         HttpURLConnection con;
         try {
             con = (HttpURLConnection) new URL(str_url + "/api/game/start").openConnection();
-            con.setRequestMethod("POST");
-            con.setDoOutput(true);
-            con.setRequestProperty("Content-Type", "application/json");
             ObjectMapper mapper = new ObjectMapper();
-            String toSend = mapper.writeValueAsString(other_player);
-            try (OutputStream output = con.getOutputStream()) {
-                output.write(toSend.getBytes());
-            }
-            InputStream response = con.getInputStream();
-            player = mapper.readValue(response, Player.class);
-            con.disconnect();
-            return player;
+            return sendConnection(con, mapper.writeValueAsString(other_player), mapper);
         } catch (IOException e) {
             System.out.println("Serveur impossible à joindre");
             return null;
         }
+    }
+
+    public Player sendConnection(HttpURLConnection con, String toSend, ObjectMapper mapper) throws IOException {
+        con.setRequestMethod("POST");
+        con.setDoOutput(true);
+        con.setRequestProperty("Content-Type", "application/json");
+        try (OutputStream output = con.getOutputStream()) {
+            output.write(toSend.getBytes());
+        }
+        InputStream response = con.getInputStream();
+        Player player = mapper.readValue(response, Player.class);
+        con.disconnect();
+        return player;
     }
 }
