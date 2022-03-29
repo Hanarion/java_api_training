@@ -61,47 +61,24 @@ public class Player {
 
     public Player getFromUrl(String str_url, Player other_player) {
         Player player;
-        URL url = null;
+        HttpURLConnection con;
         try {
-            url = new URL(str_url + "/api/game/start");
-        } catch (MalformedURLException e) {
-            System.out.println("Merci de préciser une URL valide");
-            return null;
-        }
-        HttpURLConnection con = null;
-        try {
-
-            con = (HttpURLConnection) url.openConnection();
-
-
+            con = (HttpURLConnection) new URL(str_url + "/api/game/start").openConnection();
             con.setRequestMethod("POST");
             con.setDoOutput(true);
             con.setRequestProperty("Content-Type", "application/json");
-
             ObjectMapper mapper = new ObjectMapper();
             String toSend = mapper.writeValueAsString(other_player);
             try (OutputStream output = con.getOutputStream()) {
                 output.write(toSend.getBytes());
             }
-
             InputStream response = con.getInputStream();
             player = mapper.readValue(response, Player.class);
             con.disconnect();
             return player;
-
         } catch (IOException e) {
             System.out.println("Serveur impossible à joindre");
             return null;
         }
-
-    }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                ", message='" + message + '\'' +
-                '}';
     }
 }

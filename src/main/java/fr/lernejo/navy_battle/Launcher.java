@@ -10,10 +10,6 @@ public class Launcher {
             System.out.println("Merci de préciser le port");
             return;
         }
-        String url = null;
-        if (args.length > 1) {
-            url = args[1];
-        }
         int port;
         try {
             port = Integer.parseInt(args[0]);
@@ -26,8 +22,8 @@ public class Launcher {
             String ip = "localhost";
             Player player = new Player(UUID.randomUUID(), "http://" + ip + ':' + port, "May the best code win");
             NavyBattleServer server = new NavyBattleServer(ip, port, player);
-            if (url != null) {
-                Player opponnent = new Player().getFromUrl(url, player);
+            if (args.length > 1 && args[1] != null) {
+                Player opponnent = new Player().getFromUrl(args[1], player);
                 if (opponnent == null)
                     return;
                 server.setOponnent(opponnent);
@@ -36,7 +32,6 @@ public class Launcher {
             server.startHttpServer();
         } else {
             System.out.println("Merci d'indiquer un port valide");
-            return;
         }
 
     }

@@ -42,12 +42,9 @@ public class NavyBattleServer {
 
     public void startHttpServer() {
         InetSocketAddress addr = new InetSocketAddress(this.ip, this.port);
-
         try {
             HttpServer server = HttpServer.create(addr, 0);
-
-            ExecutorService executor = Executors.newFixedThreadPool(1);
-            server.setExecutor(executor);
+            server.setExecutor(Executors.newFixedThreadPool(1));
             for (Map.Entry<String, HttpHandler> handler : handlerMap.entrySet()) {
                 server.createContext(handler.getKey(), handler.getValue());
             }
@@ -56,9 +53,7 @@ public class NavyBattleServer {
             System.out.println("Server available at http://" + addr.getHostName() + ':' + addr.getPort());
         } catch (IOException e) {
             System.out.println("Impossible de créer un serveur, le port est disponible ??");
-            return;
         }
-
     }
 
     public void stopHttpServer() {
@@ -89,17 +84,10 @@ public class NavyBattleServer {
                         new Torpilleur()
                 )
         );
-
         sea.populateSea(ships);
-
         this.my_sea.set(sea);
-
         Sea other_sea = new Sea();
         other_sea.populateSea(new ArrayList<>()); // No ships known for you
-
         this.oponnent_sea.set(other_sea);
-
-
-
     }
 }

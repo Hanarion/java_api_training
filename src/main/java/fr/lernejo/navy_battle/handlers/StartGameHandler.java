@@ -19,18 +19,10 @@ public class StartGameHandler extends Handler implements HttpHandler {
     }
 
     @Override
-    public void handle(HttpExchange httpExchange) {
+    public void handle(HttpExchange httpExchange) throws IOException {
         if (!httpExchange.getRequestMethod().equals("POST")) {
-            try {
-                String response = "Not found";
-//                httpExchange.getResponseBody().write(response.getBytes());
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
+            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
             return;
-
         }
         try {
             String json = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
@@ -39,15 +31,8 @@ public class StartGameHandler extends Handler implements HttpHandler {
             String response = this.getBattleServer().getPlayer().toJson();
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_ACCEPTED, response.getBytes().length);
             httpExchange.getResponseBody().write(response.getBytes());
-            httpExchange.close();
-
         } catch (IOException e) {
-
-            try {
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
         }
 
     }
