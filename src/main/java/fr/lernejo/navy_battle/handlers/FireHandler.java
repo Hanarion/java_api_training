@@ -32,7 +32,7 @@ public class FireHandler extends Handler implements HttpHandler {
             String json = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
             System.out.println(json);
             String response = "{\"consequence\":\"sunk\",\"shipLeft\":true}";
-            httpExchange.getRequestHeaders().set("Content-Type", "application/json;");
+            httpExchange.getResponseHeaders().set("Content-Type", "application/json;");
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_ACCEPTED, response.getBytes().length);
             httpExchange.getResponseBody().write(response.getBytes());
             httpExchange.close();
